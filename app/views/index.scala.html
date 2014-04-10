@@ -1,0 +1,35 @@
+@(patients: List[Patients])
+
+<ul>
+	@for(patient <- patients) {
+		<li>(@patient.id) Patient name: @patient.name Patient email-address: @patient.email</li>
+	}
+</ul>
+
+<hr/>
+
+@if(flash().containsKey("error")) {
+	
+	<div style="border: solid 3px red">
+}
+
+<form method="POST" action="@routes.PatientController.create()">
+
+	@if(flash().containsKey("name-error.required")) {
+		<div>@flash().get("name-error.required")</div>
+	}
+	@if(flash().containsKey("name-error.minLength")) {
+		<div>@flash().get("name-error.minLength")</div>
+	}
+    <input name="name" placeholder="Patient-name"> <br/>
+    
+	@if(flash().containsKey("email-error.email")) {
+		<div>@flash().get("email-error.email")</div>
+	}
+	@if(flash().containsKey("email-error.minLength")) {
+		<div>@flash().get("email-error.minLength")</div>
+	}
+    <input name="email" placeholder="Patient-email"> <br/>
+    
+    <button type="submit">Add new patient</button>
+</form>
